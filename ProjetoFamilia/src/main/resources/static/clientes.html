@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Projeto Família - Clientes</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="topo">
+    <h1>Projeto Família</h1>
+</header>
+
+<main>
+
+    <div class="cabecalho">
+
+        <div>
+            <h2>Clientes</h2>
+            <p>Gerencie os clientes cadastrados</p>
+        </div>
+
+        <button class="btn-novo" onclick="abrirCadastro()">
+            + Novo cliente
+        </button>
+
+    </div>
+    <div class="barra-pesquisa">
+        <input
+                type="text"
+                id="buscarCliente"
+                placeholder="🔍 Buscar cliente..."
+                oninput="filtrarClientes()"
+        >
+    </div>
+    <section class="card-tabela">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Endereço</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+
+            <tbody id="tabelaClientes">
+            </tbody>
+
+        </table>
+
+    </section>
+    <div id="modalCadastro" class="modal">
+
+        <div class="formulario">
+
+            <h2>Novo cliente</h2>
+
+            <input type="text" id="nome" placeholder="Nome">
+
+            <input type="text" id="telefone" placeholder="Telefone">
+
+            <input type="text" id="endereco" placeholder="Endereço">
+
+            <div class="botoes-formulario">
+
+                <button onclick="fecharCadastro()">
+                    Cancelar
+                </button>
+
+                <button id="btnSalvar" class="btn-cadastrar" onclick="salvarCliente()">
+                    Cadastrar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script src="js/clientes.js"></script>
+
+</body>
+
+</html>
+```
