@@ -1,4 +1,4 @@
-
+//BUSCA CLINTES
 async function carregarResumo() {
 
     console.log("Dashboard JS carregou!");
@@ -10,14 +10,18 @@ async function carregarResumo() {
 
     document.getElementById("totalClientes").textContent = clientes.length;
 
-
+// BUSCA PRODUTOS
     const respostaProdutos = await fetch("/produtos");
     const produtos = await respostaProdutos.json();
 
     console.log("Produtos:", produtos);
-
     document.getElementById("totalProdutos").textContent = produtos.length;
 
+
+//BUSCA KITS
+const respostaKits = await fetch("/kits");
+const kits = await respostaKits.json();
+document.getElementById("totalKits").textContent = kits.length;
 }
 
 carregarResumo();
