@@ -86,4 +86,33 @@ public class Vendas {
     public void setEstadoAtual(String estadoAtual) {
         this.estadoAtual = estadoAtual;
     }
+    public double getCustoKit() {
+
+        if (kit == null || kit.getItens() == null) {
+            return 0;
+        }
+
+        double custo = 0;
+
+        for (ItensKit item : kit.getItens()) {
+
+            if (item.getProduto() != null) {
+                custo += item.getProduto().getPreco() * item.getQuantidade();
+            }
+        }
+
+        return Math.round(custo * 100.0) / 100.0;
+    }
+
+
+    public double getLucro() {
+
+        if (kit == null) {
+            return 0;
+        }
+
+        double lucro = kit.getValor() - getCustoKit();
+
+        return Math.round(lucro * 100.0) / 100.0;
+    }
 }

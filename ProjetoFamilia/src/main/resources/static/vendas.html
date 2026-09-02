@@ -10,6 +10,50 @@
     <title>Vendas - Projeto Família</title>
 
     <style>
+        .financeiro {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.financeiro > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.financeiro span {
+    font-size: 13px;
+    color: #747d8c;
+}
+
+.financeiro strong {
+    font-size: 15px;
+}
+
+.financeiro-lucro {
+    border: 1px solid #eee;
+}
+
+#modalLucro.lucro-positivo {
+    color: #27ae60;
+}
+
+#modalLucro.lucro-negativo {
+    color: #e74c3c;
+}
+        .lucro-positivo {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.lucro-negativo {
+    color: #e74c3c;
+    font-weight: bold;
+}
         .dias-atraso {
     font-size: 11px;
     margin-top: 4px;
@@ -65,11 +109,11 @@
         /* CARDS */
 
         .cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-        }
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
 
         .card {
             background: white;
@@ -619,7 +663,11 @@
 
 <!-- CARDS -->
 
+<!-- CARDS -->
+
 <div class="cards">
+
+    <!-- VENDAS PAGAS -->
 
     <div class="card">
 
@@ -634,6 +682,8 @@
     </div>
 
 
+    <!-- VENDAS PENDENTES -->
+
     <div class="card">
 
         <div class="card-titulo">
@@ -647,6 +697,8 @@
     </div>
 
 
+    <!-- VENDAS ATRASADAS -->
+
     <div class="card">
 
         <div class="card-titulo">
@@ -659,8 +711,82 @@
 
     </div>
 
-</div>
 
+    <!-- TOTAL DE VENDAS -->
+
+    <div class="card">
+
+        <div class="card-titulo">
+            TOTAL DE VENDAS
+        </div>
+
+        <div class="card-numero" id="totalVendas">
+            0
+        </div>
+
+    </div>
+
+
+    <!-- FATURAMENTO -->
+
+    <div class="card">
+
+        <div class="card-titulo">
+            FATURAMENTO
+        </div>
+
+        <div class="card-numero" id="faturamentoTotal">
+            R$ 0,00
+        </div>
+
+    </div>
+
+
+    <!-- RECEBIDO -->
+
+    <div class="card">
+
+        <div class="card-titulo">
+            RECEBIDO
+        </div>
+
+        <div class="card-numero" id="recebidoTotal">
+            R$ 0,00
+        </div>
+
+    </div>
+
+
+    <!-- A RECEBER -->
+
+    <div class="card">
+
+        <div class="card-titulo">
+            A RECEBER
+        </div>
+
+        <div class="card-numero" id="aReceberTotal">
+            R$ 0,00
+        </div>
+
+    </div>
+
+
+    <!-- LUCRO TOTAL -->
+
+    <div class="card">
+
+        <div class="card-titulo">
+            LUCRO TOTAL
+        </div>
+
+        <div class="card-numero" id="lucroTotal">
+            R$ 0,00
+        </div>
+
+    </div>
+
+</div>
 
 <!-- TABELA -->
 
@@ -701,6 +827,9 @@
             <th>ID</th>
             <th>Cliente</th>
             <th>Kit</th>
+            <th>Valor</th>
+            <th>Custo</th>
+            <th>Lucro</th>
             <th>Data</th>
             <th>Vencimento</th>
             <th>Status</th>
@@ -806,7 +935,38 @@
 
         </div>
 
+        <!-- FINANCEIRO -->
 
+        <div class="secao">
+
+            <h3>Financeiro</h3>
+
+            <div class="financeiro">
+
+                <div>
+                    <span>Valor da venda</span>
+                    <strong id="modalValorVenda">
+                        R$ 0,00
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Custo dos produtos</span>
+                    <strong id="modalCustoKit">
+                        R$ 0,00
+                    </strong>
+                </div>
+
+                <div class="financeiro-lucro">
+                    <span>Lucro</span>
+                    <strong id="modalLucro">
+                        R$ 0,00
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
         <!-- DATAS -->
 
         <div class="datas">

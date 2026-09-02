@@ -66,13 +66,25 @@ function preencherTabela(lista = vendas) {
                 ${venda.cliente?.nome ?? "Cliente não informado"}
             </td>
 
-            <td>
-                ${venda.kit?.nome ?? "Kit não informado"}
-            </td>
+                <td>
+                    ${venda.kit?.nome ?? "Kit não informado"}
+                </td>
 
-            <td>
-                ${formatarData(venda.dataCompra)}
-            </td>
+                <td>
+                    ${formatarMoeda(venda.kit?.valor)}
+                </td>
+
+                <td>
+                    ${formatarMoeda(venda.custoKit)}
+                </td>
+
+                <td class="${venda.lucro >= 0 ? 'lucro-positivo' : 'lucro-negativo'}">
+                    ${formatarMoeda(venda.lucro)}
+                </td>
+
+                <td>
+                    ${formatarData(venda.dataCompra)}
+                </td>
 
             <td>
                 ${formatarData(venda.dataVencimento)}
@@ -142,6 +154,26 @@ function filtrarVendas() {
 // ===============================
 
 function atualizarCards() {
+    const totalVendas = vendas.length;
+    const faturamentoTotal = vendas.reduce(
+        (total, venda) => total + (venda.kit?.valor ?? 0),
+        0
+    );
+    const aReceberTotal = vendas
+        .filter(venda =>
+            venda.estadoAtual === "pendente" ||
+            venda.estadoAtual === "atrasado"
+        )
+        .reduce(
+            (total, venda) => total + (venda.kit?.valor ?? 0),
+            0
+        );
+        const recebidoTotal = vendas
+            .filter(venda => venda.estadoAtual === "pago")
+            .reduce(
+                (total, venda) => total + (venda.kit?.valor ?? 0),
+                0
+            );
 
     const pagas = vendas.filter(
         venda => venda.estadoAtual === "pago"
@@ -154,6 +186,20 @@ function atualizarCards() {
     const atrasadas = vendas.filter(
         venda => venda.estadoAtual === "atrasado"
     ).length;
+    const lucroTotal = vendas.reduce(
+        (total, venda) => total + (venda.lucro ?? 0),
+        0
+    );
+    document.getElementById("totalVendas").textContent =
+        totalVendas;
+
+        document.getElementById("faturamentoTotal").textContent =
+            formatarMoeda(faturamentoTotal);
+    document.getElementById("aReceberTotal").textContent =
+        formatarMoeda(aReceberTotal);
+
+        document.getElementById("recebidoTotal").textContent =
+            formatarMoeda(recebidoTotal);
 
 
     document.getElementById("totalPagas").textContent = pagas;
@@ -161,6 +207,23 @@ function atualizarCards() {
     document.getElementById("totalPendentes").textContent = pendentes;
 
     document.getElementById("totalAtrasadas").textContent = atrasadas;
+
+    document.getElementById("lucroTotal").textContent =
+        formatarMoeda(lucroTotal);
+
+        const elementoLucroTotal =
+            document.getElementById("lucroTotal");
+
+        elementoLucroTotal.classList.remove(
+            "lucro-positivo",
+            "lucro-negativo"
+        );
+
+        elementoLucroTotal.classList.add(
+            lucroTotal >= 0
+                ? "lucro-positivo"
+                : "lucro-negativo"
+        );
 
 }
 
@@ -345,6 +408,22 @@ function verDetalhes(id) {
 
     document.getElementById("modalKitValor").textContent =
         formatarMoeda(venda.kit?.valor);
+
+        document.getElementById("modalValorVenda").textContent =
+            formatarMoeda(venda.kit?.valor);
+
+        document.getElementById("modalCustoKit").textContent =
+            formatarMoeda(venda.custoKit);
+
+        const modalLucro = document.getElementById("modalLucro");
+
+        modalLucro.textContent =
+            formatarMoeda(venda.lucro);
+
+        modalLucro.className =
+            venda.lucro >= 0
+                ? "lucro-positivo"
+                : "lucro-negativo";
 
 
     // ITENS DO KIT
