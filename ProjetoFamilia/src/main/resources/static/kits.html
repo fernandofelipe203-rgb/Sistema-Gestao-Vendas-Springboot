@@ -10,6 +10,11 @@
   <title>Kits - Projeto Família</title>
 
   <style>
+    .tabela-itens-kit {
+    width: 100%;
+    overflow-x: auto;
+}
+
 
     * {
         box-sizing: border-box;
@@ -187,7 +192,66 @@
         color: #e74c3c;
     }
 
+    #areaItensKit select,
+#areaItensKit input,
+#btnAdicionarProduto {
+    padding: 12px;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+#areaItensKit select {
+    min-width: 250px;
+}
+
+#areaItensKit input {
+    width: 150px;
+}
+
+#btnAdicionarProduto {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
     @media (max-width: 700px) {
+
+    #btnFecharItens {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+  }
+    #areaItensKit {
+    width: 100%;
+    padding: 15px;
+  }
+#tituloItensKit {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+    .tabela-itens-kit {
+    overflow-x: auto;
+  }
+  .tabela-kits {
+    width: 100%;
+    overflow-x: auto;
+}
+    #areaItensKit select,
+  #areaItensKit input,
+  #btnAdicionarProduto {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+#areaItensKit select {
+    min-width: 0;
+  }
+
+#areaItensKit input {
+    width: 100%;
+  }
+
 
         body {
             padding: 20px;
@@ -198,10 +262,18 @@
             align-items: flex-start;
             gap: 15px;
         }
+        #btnNovoKit {
+    width: 100%;
+}
 
         .campos {
             grid-template-columns: 1fr;
         }
+         #btnSalvar,
+    #btnCancelar {
+        width: 100%;
+        margin: 5px 0;
+    }
 
         .card {
             overflow-x: auto;
@@ -303,6 +375,7 @@
     </button>
 
   </div>
+  <div class="tabela-itens-kit">
 
   <table>
 
@@ -319,6 +392,7 @@
 
   </table>
 
+  </div>
   <button id="btnFecharItens">
     Fechar
   </button>
@@ -340,7 +414,7 @@
       </h2>
 
     </div>
-
+    <div class="tabela-kits">
     <table>
 
       <thead>
@@ -361,7 +435,7 @@
       </tbody>
 
     </table>
-
+    </div>
   </div>
 
 </div>

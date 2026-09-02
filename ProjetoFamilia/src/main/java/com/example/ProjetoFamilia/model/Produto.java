@@ -11,6 +11,7 @@ public class Produto {
     private String nome;
     private double preco;
     private int quantidade;
+    private double percentualLucro;
 
     public int getId() {
         return id;
@@ -43,4 +44,17 @@ public class Produto {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
+
+    public double getPercentualLucro() {
+        return percentualLucro;
+    }
+
+    public void setPercentualLucro(double percentualLucro) {
+        this.percentualLucro = percentualLucro;
+    }
+
+    public double getPrecoVenda() {
+         return Math.round(preco * (1 + percentualLucro / 100) * 100.0) / 100.0;
+    }
 }
+

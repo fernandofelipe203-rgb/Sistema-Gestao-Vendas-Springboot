@@ -69,7 +69,7 @@ main {
     background-color: #ffffff;
     border-radius: 10px;
     border: 1px solid #e8e3e5;
-    overflow: hidden;
+    overflow-x: auto;
 }
 
 /* Tabela */
@@ -116,7 +116,8 @@ button {
 
 .formulario {
     background-color: white;
-    width: 400px;
+    width: 90%;
+    max-width: 400px;
     padding: 30px;
     border-radius: 12px;
 }
@@ -353,18 +354,146 @@ button {
 }
 
 
-/* Responsividade */
+/* =========================
+   RESPONSIVIDADE
+   ========================= */
 
 @media (max-width: 800px) {
+.cabecalho {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
 
+.btn-novo {
+    width: 100%;
+}
+
+    /* Conteúdo */
+    main {
+        margin: 25px auto;
+        padding: 0 15px;
+    }
+
+    /* Cabeçalho */
+    .topo {
+        padding: 16px 20px;
+    }
+
+    .topo h1 {
+        font-size: 21px;
+    }
+
+    /* Boas-vindas */
+    .boas-vindas {
+        margin-bottom: 22px;
+    }
+
+    .boas-vindas h2 {
+        font-size: 24px;
+    }
+
+    .boas-vindas p {
+        font-size: 14px;
+    }
+
+    /* Cards */
     .resumo {
         grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 25px;
+    }
+
+    .card-resumo {
+        padding: 18px;
+        gap: 15px;
+    }
+
+    .card-resumo > span {
+        font-size: 28px;
+    }
+
+    .card-resumo strong {
+        font-size: 24px;
+    }
+
+    /* Acesso rápido */
+    .atalhos {
+        padding: 18px;
+    }
+
+    .atalhos h2 {
+        font-size: 17px;
     }
 
     .botoes-atalho {
         grid-template-columns: 1fr 1fr;
+        gap: 10px;
     }
 
+    .botoes-atalho button {
+        padding: 16px 8px;
+        min-height: 55px;
+        font-size: 14px;
+    }
 }
-```
+
+
+/* Celulares pequenos */
+
+@media (max-width: 480px) {
+    .formulario {
+        padding: 20px;
+    }
+
+    .botoes-formulario {
+        flex-direction: column;
+    }
+
+    .botoes-formulario button {
+        width: 100%;
+    }
+
+    .topo {
+        padding: 15px;
+    }
+
+    .topo h1 {
+        font-size: 20px;
+    }
+
+    main {
+        padding: 0 12px;
+        margin-top: 20px;
+    }
+
+    .boas-vindas h2 {
+        font-size: 22px;
+    }
+
+    .card-resumo {
+        padding: 16px;
+    }
+
+    .card-resumo > span {
+        font-size: 26px;
+    }
+
+    .card-resumo strong {
+        font-size: 22px;
+    }
+
+    .atalhos {
+        padding: 15px;
+    }
+
+    .botoes-atalho {
+        grid-template-columns: 1fr;
+    }
+
+    .botoes-atalho button {
+        width: 100%;
+        min-height: 52px;
+    }
+}
 

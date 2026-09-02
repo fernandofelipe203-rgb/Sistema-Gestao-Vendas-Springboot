@@ -4,6 +4,14 @@ const tabela = document.getElementById("tabelaKits");
 let kits = [];
 let kitSelecionadoId = null;
 
+function formatarPreco(valor) {
+    return Number(valor).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+}
+
+
 // LISTAR KITS
 
 async function carregarKits() {
@@ -29,7 +37,7 @@ async function carregarKits() {
             linha.innerHTML = `
                 <td>${kit.id}</td>
                 <td>${kit.nome}</td>
-                <td>R$ ${kit.valor}</td>
+                <td>${formatarPreco(kit.valor)}</td>
                 <td>
                     <button onclick="editarKit(${kit.id})">
                         Editar

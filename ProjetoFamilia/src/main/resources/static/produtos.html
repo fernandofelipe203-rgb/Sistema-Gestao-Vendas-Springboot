@@ -66,25 +66,55 @@
 
     /* FORMULÁRIO */
 
-    #formularioProduto {
-        background-color: white;
-        border-radius: 12px;
-        padding: 25px;
-        margin-bottom: 25px;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-    }
+/* MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-conteudo {
+    background-color: white;
+    width: 90%;
+    max-width: 700px;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
 
     #tituloFormulario {
         font-size: 20px;
         margin-bottom: 20px;
     }
 
-    .campos {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
+#precoVendaPreview {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f1f8f4;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+#precoVendaPreview strong {
+    font-weight: bold;
+}
+
+.preco-venda-final {
+    margin-top: 5px;
+    padding-top: 8px;
+    border-top: 1px solid #d5e8dc;
+    font-size: 16px;
+}
+
+.preco-venda-final strong {
+    font-size: 20px;
+}
 
     input {
         width: 100%;
@@ -199,7 +229,12 @@
     td button:last-child:hover {
         background-color: #ffd5d5;
     }
-
+.campos {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
     /* RESPONSIVO */
 
     @media (max-width: 700px) {
@@ -221,8 +256,31 @@
         .card {
             overflow-x: auto;
         }
+        .titulo-tabela {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+}
+
+#buscarProduto {
+    width: 100%;
+}
 
     }
+.lucro {
+    font-weight: bold;
+    color: #27ae60;
+}
+    .titulo-tabela {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#buscarProduto {
+    width: 300px;
+}
 
   </style>
 
@@ -255,31 +313,59 @@
 
   <!-- FORMULÁRIO -->
 
-  <div id="formularioProduto" style="display: none;">
+  <div id="modalProduto" class="modal">
 
-    <h2 id="tituloFormulario">
-      Cadastrar Produto
-    </h2>
+    <div id="formularioProduto" class="modal-conteudo">
+
+      <h2 id="tituloFormulario">
+        Cadastrar Produto
+      </h2>
 
     <input type="hidden" id="idProduto">
 
-    <div class="campos">
+      <div class="campos">
 
-      <input
-              type="text"
-              id="nome"
-              placeholder="Nome do produto">
+        <input
+                type="text"
+                id="nome"
+                placeholder="Nome do produto">
 
-      <input
-              type="number"
-              id="preco"
-              placeholder="Preço"
-              step="0.01">
+        <input
+                type="number"
+                id="preco"
+                placeholder="Preço de custo"
+                step="0.01">
 
-      <input
-              type="number"
-              id="quantidade"
-              placeholder="Quantidade">
+        <input
+                type="number"
+                id="percentualLucro"
+                placeholder="Quero ganhar (%)"
+                min="0"
+                step="1">
+
+        <input
+                type="number"
+                id="quantidade"
+                placeholder="Quantidade">
+
+      </div>
+
+      <div id="precoVendaPreview">
+
+        <div>
+          Preço de custo:
+          <strong id="previewCusto">R$ 0,00</strong>
+        </div>
+
+        <div>
+          Quero ganhar:
+          <strong id="previewPercentual">0%</strong>
+        </div>
+
+        <div class="preco-venda-final">
+          Preço de venda:
+          <strong id="previewVenda">R$ 0,00</strong>
+        </div>
 
     </div>
 
@@ -290,21 +376,21 @@
     <button id="btnCancelar">
       Cancelar
     </button>
-
+    </div>
   </div>
 
 
   <!-- LISTA -->
 
-  <div class="card">
+  <div class="titulo-tabela">
+    <h2>Lista de Produtos</h2>
 
-    <div class="titulo-tabela">
-
-      <h2>
-        Lista de Produtos
-      </h2>
-
-    </div>
+    <input
+            type="text"
+            id="buscarProduto"
+            placeholder="🔍 Buscar produto por nome..."
+    >
+  </div>
 
     <table>
 
@@ -314,7 +400,10 @@
 
         <th>ID</th>
         <th>Nome</th>
-        <th>Preço</th>
+        <th>Preço de custo</th>
+        <th>Preço de venda</th>
+        <th>Lucro (%)</th>
+        <th>Lucro (R$)</th>
         <th>Quantidade</th>
         <th>Ações</th>
 

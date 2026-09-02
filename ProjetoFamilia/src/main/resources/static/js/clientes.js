@@ -37,7 +37,7 @@ async function listarClientes() {
 
 function abrirCadastro() {
 
-    clienteEditandoId = null;
+    limparFormulario();
 
     document.getElementById("btnSalvar").textContent = "Cadastrar";
 
@@ -233,6 +233,19 @@ function filtrarClientes() {
     const clientesFiltrados = clientes.filter(cliente =>
         cliente.nome.toLowerCase().includes(busca)
     );
+
+    if (clientesFiltrados.length === 0) {
+
+        tabela.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align: center; padding: 25px;">
+                    🔎 Nenhum cliente encontrado.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
 
     clientesFiltrados.forEach(cliente => {
 
