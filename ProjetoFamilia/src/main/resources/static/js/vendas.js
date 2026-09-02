@@ -186,10 +186,12 @@ function atualizarCards() {
     const atrasadas = vendas.filter(
         venda => venda.estadoAtual === "atrasado"
     ).length;
-    const lucroTotal = vendas.reduce(
-        (total, venda) => total + (venda.lucro ?? 0),
-        0
-    );
+    const lucroTotal = vendas
+        .filter(venda => venda.estadoAtual === "pago")
+        .reduce(
+            (total, venda) => total + (venda.lucro ?? 0),
+            0
+        );
     document.getElementById("totalVendas").textContent =
         totalVendas;
 

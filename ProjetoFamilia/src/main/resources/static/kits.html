@@ -10,6 +10,37 @@
   <title>Kits - Projeto Família</title>
 
   <style>
+    #formularioKit {
+    position: fixed;
+}
+
+#formularioKit .modal-fechar {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+    .botoes-formulario-kit {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.botoes-formulario-kit button {
+    position: static;
+}
+
+@media (max-width: 700px) {
+
+    .botoes-formulario-kit {
+        flex-direction: column;
+    }
+
+    .botoes-formulario-kit button {
+        width: 100%;
+        margin: 0;
+    }
+
+}
     .tabela-itens-kit {
     width: 100%;
     overflow-x: auto;
@@ -215,6 +246,625 @@
     font-weight: bold;
     cursor: pointer;
 }
+/* ===============================
+   MODAL DE ITENS DO KIT
+================================ */
+
+#areaItensKit {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 92%;
+    max-width: 850px;
+    max-height: 90vh;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25);
+
+    z-index: 1001;
+
+    overflow-y: auto;
+}
+
+
+/* CABEÇALHO */
+
+.modal-itens-cabecalho {
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom: 20px;
+
+    border-bottom: 1px solid #edf0f2;
+
+    margin-bottom: 25px;
+}
+
+
+#tituloItensKit {
+
+    font-size: 24px;
+
+    color: #2f3542;
+
+    margin: 0;
+}
+
+
+.modal-fechar {
+
+    width: 36px;
+    height: 36px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f1f3f6;
+
+    color: #747d8c;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s;
+}
+
+
+.modal-fechar:hover {
+
+    background: #ffe8e8;
+
+    color: #e74c3c;
+
+}
+
+
+/* ÁREA DE ADICIONAR PRODUTO */
+
+#areaItensKit > div:nth-child(2) {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+}
+
+
+#areaItensKit select {
+
+    flex: 1;
+
+    padding: 12px;
+
+    border: 1px solid #dfe4ea;
+
+    border-radius: 8px;
+
+    background: white;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+#areaItensKit select:focus {
+
+    border-color: #2f80ed;
+
+}
+
+
+#areaItensKit input {
+
+    width: 130px;
+
+    padding: 12px;
+
+    border: 1px solid #dfe4ea;
+
+    border-radius: 8px;
+
+    outline: none;
+}
+
+
+#areaItensKit input:focus {
+
+    border-color: #2f80ed;
+
+}
+
+
+#btnAdicionarProduto {
+
+    padding: 12px 18px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #27ae60;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+#btnAdicionarProduto:hover {
+
+    background: #219653;
+
+}
+
+
+/* TABELA */
+
+.tabela-itens-kit {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid #edf0f2;
+
+    border-radius: 10px;
+
+    margin-bottom: 25px;
+}
+
+
+.tabela-itens-kit table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+
+.tabela-itens-kit thead {
+
+    background: #f8f9fa;
+}
+
+
+.tabela-itens-kit th {
+
+    padding: 13px 15px;
+
+    text-align: left;
+
+    font-size: 12px;
+
+    color: #747d8c;
+
+    text-transform: uppercase;
+}
+
+
+.tabela-itens-kit td {
+
+    padding: 14px 15px;
+
+    border-top: 1px solid #edf0f2;
+
+}
+
+
+.tabela-itens-kit tbody tr:hover {
+
+    background: #fafafa;
+
+}
+
+
+/* RESUMO FINANCEIRO */
+
+.resumo-kit {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+
+    margin-top: 10px;
+}
+
+
+.resumo-kit div {
+
+    background: #f8f9fa;
+
+    border: 1px solid #edf0f2;
+
+    border-radius: 12px;
+
+    padding: 16px;
+
+}
+
+
+.resumo-kit span {
+
+    display: block;
+
+    font-size: 12px;
+
+    color: #747d8c;
+
+    margin-bottom: 8px;
+
+}
+
+
+.resumo-kit strong {
+
+    font-size: 18px;
+
+    color: #2f3542;
+}
+
+
+/* LUCRO */
+
+.lucro-kit {
+
+    color: #27ae60 !important;
+
+}
+
+
+.lucro-positivo {
+
+    color: #27ae60 !important;
+
+}
+
+
+.lucro-negativo {
+
+    color: #e74c3c !important;
+
+}
+
+
+/* MARGEM */
+
+.margem-kit {
+
+    color: #2f80ed !important;
+
+}
+
+
+/* BOTÃO FECHAR */
+
+#btnFecharItens {
+
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #f1f3f6;
+
+    color: #2f3542;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+#btnFecharItens:hover {
+
+    background: #dfe4ea;
+
+}
+
+
+/* ===============================
+   FUNDO DO MODAL
+================================ */
+
+#areaItensKit::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(245, 246, 250, 0.75);
+
+    backdrop-filter: blur(2px);
+
+    z-index: -1;
+}
+/* ===============================
+   MODAL DO FORMULÁRIO DO KIT
+================================ */
+
+#formularioKit {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 8px 30px rgba(47, 53, 66, 0.12);
+
+    z-index: 1002;
+
+    overflow-y: auto;
+}
+
+
+/* TÍTULO */
+
+#tituloFormulario {
+    font-size: 23px;
+    color: #2f3542;
+    margin-bottom: 25px;
+}
+
+
+/* CAMPOS */
+
+#formularioKit .campos {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 25px;
+}
+
+
+#formularioKit label {
+
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #747d8c;
+
+    margin-bottom: 7px;
+}
+
+
+/* CAMPOS SOMENTE LEITURA */
+
+#formularioKit input[readonly] {
+
+    background-color: #f8f9fa;
+
+    color: #747d8c;
+
+}
+
+
+/* BOTÕES */
+
+#btnSalvar,
+#btnCancelar {
+
+    padding: 12px 20px;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    border: none;
+}
+
+
+#btnSalvar {
+
+    background-color: #27ae60;
+
+    color: white;
+
+}
+
+
+#btnSalvar:hover {
+
+    background-color: #219653;
+
+}
+
+
+#btnCancelar {
+
+    background-color: #f1f3f6;
+
+    color: #2f3542;
+
+    margin-left: 8px;
+
+}
+
+
+#btnCancelar:hover {
+
+    background-color: #dfe4ea;
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    #formularioKit {
+
+        width: 95%;
+
+        padding: 20px;
+
+    }
+
+
+    #formularioKit .campos {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    #btnSalvar,
+    #btnCancelar {
+
+        width: 100%;
+
+        margin: 5px 0;
+
+    }
+
+}
+/* ===============================
+   FUNDO DO MODAL DE EDIÇÃO
+================================ */
+
+#formularioKit::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(245, 246, 250, 0.75);
+
+    backdrop-filter: blur(2px);
+
+    z-index: -1;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    #areaItensKit {
+
+        width: 95%;
+
+        padding: 20px;
+
+        border-radius: 15px;
+    }
+
+
+    #tituloItensKit {
+
+        font-size: 20px;
+    }
+
+
+    #areaItensKit > div:nth-child(2) {
+
+        flex-direction: column;
+    }
+
+
+    #areaItensKit select,
+    #areaItensKit input,
+    #btnAdicionarProduto {
+
+        width: 100%;
+    }
+
+
+    .resumo-kit {
+
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .resumo-kit {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+@media (max-width: 700px) {
+
+    #areaItensKit {
+        width: 95%;
+        padding: 18px;
+    }
+
+    .resumo-kit {
+        grid-template-columns: 1fr;
+    }
+
+}
     @media (max-width: 700px) {
 
     #btnFecharItens {
@@ -280,7 +930,98 @@
         }
 
     }
+/* ===============================
+   PRODUTOS NO EDITAR KIT
+================================ */
 
+.produtos-edicao-kit {
+    margin-bottom: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #edf0f2;
+}
+
+.produtos-edicao-kit h3 {
+    font-size: 17px;
+    margin-bottom: 15px;
+    color: #2f3542;
+}
+
+.adicionar-produto-edicao {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.adicionar-produto-edicao select {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    outline: none;
+    background: white;
+}
+
+.adicionar-produto-edicao input {
+    width: 120px;
+    padding: 12px;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    outline: none;
+}
+
+#btnAdicionarProdutoEdicao {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #27ae60;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#btnAdicionarProdutoEdicao:hover {
+    background: #219653;
+}
+
+.tabela-produtos-edicao {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #edf0f2;
+    border-radius: 10px;
+}
+
+.tabela-produtos-edicao table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-produtos-edicao th {
+    padding: 12px;
+    text-align: left;
+    font-size: 12px;
+    color: #747d8c;
+    background: #f8f9fa;
+}
+
+.tabela-produtos-edicao td {
+    padding: 12px;
+    border-top: 1px solid #edf0f2;
+    font-size: 14px;
+}
+
+@media (max-width: 700px) {
+
+    .adicionar-produto-edicao {
+        flex-direction: column;
+    }
+
+    .adicionar-produto-edicao select,
+    .adicionar-produto-edicao input,
+    #btnAdicionarProdutoEdicao {
+        width: 100%;
+    }
+
+}
   </style>
 
 </head>
@@ -313,7 +1054,9 @@
   <!-- FORMULÁRIO -->
 
   <div id="formularioKit" style="display: none;">
-
+    <button class="modal-fechar" id="btnFecharFormulario">
+      ×
+    </button>
     <h2 id="tituloFormulario">
       Cadastrar Kit
     </h2>
@@ -322,27 +1065,72 @@
 
     <div class="campos">
 
-      <input
-              type="text"
-              id="nome"
-              placeholder="Nome do kit">
+      <div>
+        <label for="nome">Nome do kit</label>
 
-      <input
-              type="number"
-              id="valor"
-              placeholder="Valor"
-              step="0.01">
+        <input
+                type="text"
+                id="nome"
+                placeholder="Nome do kit">
+      </div>
+
+      <div>
+        <label for="custoKit">Custo dos produtos</label>
+
+        <input
+                type="number"
+                id="custoKit"
+                placeholder="R$ 0,00"
+                step="0.01"
+                readonly>
+      </div>
+
+      <div>
+        <label for="valor">Valor do kit</label>
+
+        <input
+                type="number"
+                id="valor"
+                placeholder="R$ 0,00"
+                step="0.01">
+      </div>
+
+      <div>
+        <label for="lucroKit">Lucro</label>
+
+        <input
+                type="number"
+                id="lucroKit"
+                placeholder="R$ 0,00"
+                step="0.01"
+                readonly>
+      </div>
+
+      <div>
+        <label for="margemLucro">Margem de lucro</label>
+
+        <input
+                type="text"
+                id="margemLucro"
+                placeholder="0,00%"
+                readonly>
+      </div>
 
     </div>
 
-    <button id="btnSalvar">
-      Salvar
-    </button>
 
-    <button id="btnCancelar">
-      Cancelar
-    </button>
 
+    <div class="botoes-formulario-kit">
+
+      <button id="btnSalvar">
+        Salvar
+      </button>
+
+      <button id="btnCancelar">
+        Cancelar
+      </button>
+
+    </div>
   </div>
 
 </div>
@@ -350,18 +1138,33 @@
 
 <!-- ÁREA DOS ITENS DO KIT -->
 
+<!-- MODAL DOS ITENS DO KIT -->
+
 <div id="areaItensKit" style="display: none;">
 
-  <h2 id="tituloItensKit">
-    Produtos do Kit
-  </h2>
+  <div class="modal-itens-cabecalho">
+
+    <h2 id="tituloItensKit">
+      Produtos do Kit
+    </h2>
+
+    <button class="modal-fechar" id="btnFecharX">
+      ×
+    </button>
+
+  </div>
+
+
+  <!-- ADICIONAR PRODUTO -->
 
   <div>
 
     <select id="produto">
+
       <option value="">
         Selecione um produto
       </option>
+
     </select>
 
     <input
@@ -375,29 +1178,89 @@
     </button>
 
   </div>
+
+
+  <!-- TABELA -->
+
   <div class="tabela-itens-kit">
 
-  <table>
+    <table>
 
-    <thead>
-    <tr>
-      <th>Produto</th>
-      <th>Quantidade</th>
-      <th>Ação</th>
-    </tr>
-    </thead>
+      <thead>
 
-    <tbody id="tabelaItensKit">
-    </tbody>
+      <tr>
+        <th>Produto</th>
+        <th>Quantidade</th>
+        <th>Ação</th>
+      </tr>
 
-  </table>
+      </thead>
+
+      <tbody id="tabelaItensKit">
+      </tbody>
+
+    </table>
 
   </div>
+
+
+  <!-- RESUMO FINANCEIRO -->
+
+  <div class="resumo-kit">
+
+    <div>
+
+      <span>Custo dos produtos</span>
+
+      <strong id="modalCustoKit">
+        R$ 0,00
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <span>Valor do kit</span>
+
+      <strong id="modalValorKit">
+        R$ 0,00
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <span>Lucro</span>
+
+      <strong class="lucro-kit" id="modalLucroKit">
+        R$ 0,00
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <span>Margem de lucro</span>
+
+      <strong class="margem-kit" id="modalMargemKit">
+        0,00%
+      </strong>
+
+    </div>
+
+  </div>
+
+
   <button id="btnFecharItens">
     Fechar
   </button>
 
 </div>
+
+
 
 
 <!-- LISTA -->

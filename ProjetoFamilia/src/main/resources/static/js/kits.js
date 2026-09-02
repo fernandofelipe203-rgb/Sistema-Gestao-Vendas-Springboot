@@ -71,24 +71,69 @@ const formularioKit = document.getElementById("formularioKit");
 const btnCancelar = document.getElementById("btnCancelar");
 const btnFecharItens = document.getElementById("btnFecharItens");
 const areaItensKit = document.getElementById("areaItensKit");
+const btnFecharFormulario =
+    document.getElementById("btnFecharFormulario");
 
-btnFecharItens.addEventListener("click", function() {
-
-    areaItensKit.style.display = "none";
-
-    kitSelecionadoId = null;
-
+btnFecharFormulario.addEventListener("click", function() {
+    formularioKit.style.display = "none";
 });
+
+function fecharModalItens() {
+    areaItensKit.style.display = "none";
+    kitSelecionadoId = null;
+}
+
+btnFecharItens.addEventListener("click", fecharModalItens);
+
+document.getElementById("btnFecharX")
+    .addEventListener("click", fecharModalItens);
 
 
 // ABRIR FORMULÁRIO
 
 btnNovoKit.addEventListener("click", function() {
 
+    // Limpa o formulário
+    document.getElementById("idKit").value = "";
+    document.getElementById("nome").value = "";
+    document.getElementById("valor").value = "";
+    document.getElementById("custoKit").value = "";
+    document.getElementById("lucroKit").value = "";
+    document.getElementById("margemLucro").value = "";
+
+    // Limpa a seleção de produto
+    const produtoEdicao =
+        document.getElementById("produtoEdicao");
+
+    if (produtoEdicao) {
+        produtoEdicao.value = "";
+    }
+
+    const quantidadeProdutoEdicao =
+        document.getElementById("quantidadeProdutoEdicao");
+
+    if (quantidadeProdutoEdicao) {
+        quantidadeProdutoEdicao.value = "";
+    }
+
+    // Limpa a tabela de produtos
+    const tabelaEdicao =
+        document.getElementById("tabelaProdutosEdicao");
+
+    if (tabelaEdicao) {
+        tabelaEdicao.innerHTML = "";
+    }
+
+    // Novo kit não possui ID ainda
+    kitSelecionadoId = null;
+
+    // Título
+    document.getElementById("tituloFormulario").textContent =
+        "Cadastrar Kit";
+
+    // Abre formulário
     formularioKit.style.display = "block";
-
 });
-
 
 // CANCELAR
 
@@ -109,6 +154,7 @@ btnCancelar.addEventListener("click", function() {
 // SALVAR KIT
 
 const btnSalvar = document.getElementById("btnSalvar");
+document.getElementById("valor").addEventListener("input", calcularLucroKit);
 
 btnSalvar.addEventListener("click", async function() {
 
@@ -223,17 +269,18 @@ async function excluirKit(id) {
 
 // EDITAR KIT
 
-function editarKit(id) {
+// EDITAR KIT
+async function editarKit(id) {
 
     const kit = kits.find(k => k.id === id);
 
     if (!kit) {
-
         alert("Kit não encontrado.");
-
         return;
-
     }
+
+    // Define o kit que está sendo editado
+    kitSelecionadoId = id;
 
     document.getElementById("idKit").value = kit.id;
     document.getElementById("nome").value = kit.nome;
@@ -244,6 +291,8 @@ function editarKit(id) {
 
     formularioKit.style.display = "block";
 
+    // Carrega produtos do kit
+    await carregarItensKit(id);
 }
 
 // ITENS DO KIT
@@ -282,14 +331,32 @@ async function carregarItensKit(kitId) {
             document.getElementById("tabelaItensKit");
 
         tabelaItens.innerHTML = "";
+        const tabelaEdicao =
+            document.getElementById("tabelaProdutosEdicao");
+
+        if (tabelaEdicao) {
+            tabelaEdicao.innerHTML = "";
+        }
+
+        let custoTotal = 0;
 
         itens.forEach(item => {
+
+            const custoProduto =
+                item.produto?.preco ?? 0;
+
+            const custoItem =
+                custoProduto * item.quantidade;
+
+            custoTotal += custoItem;
 
             const linha = document.createElement("tr");
 
             linha.innerHTML = `
                 <td>${item.produto.nome}</td>
+
                 <td>${item.quantidade}</td>
+
                 <td>
                     <button onclick="excluirItemKit(${kitId}, ${item.id})">
                         Excluir
@@ -298,8 +365,125 @@ async function carregarItensKit(kitId) {
             `;
 
             tabelaItens.appendChild(linha);
+            if (tabelaEdicao) {
+
+                const linhaEdicao = document.createElement("tr");
+
+                linhaEdicao.innerHTML = `
+                    <td>${item.produto.nome}</td>
+
+                    <td>${item.quantidade}</td>
+
+                    <td>
+                        <button onclick="excluirItemKit(${kitId}, ${item.id})">
+                            Excluir
+                        </button>
+                    </td>
+                `;
+
+                tabelaEdicao.appendChild(linhaEdicao);
+            }
 
         });
+
+
+        // ===============================
+        // CUSTO DO KIT
+        // ===============================
+
+        custoTotal =
+            Math.round(custoTotal * 100) / 100;
+
+
+        document.getElementById("custoKit").value =
+            custoTotal.toFixed(2);
+
+
+        // ===============================
+        // BUSCAR KIT
+        // ===============================
+
+        const kit = kits.find(k => k.id === kitId);
+
+        const valorKit =
+            kit?.valor ?? 0;
+
+
+        // ===============================
+        // LUCRO
+        // ===============================
+
+        const lucro =
+            valorKit - custoTotal;
+
+
+        // ===============================
+        // MARGEM
+        // ===============================
+
+        let margem = 0;
+
+        if (valorKit > 0) {
+
+            margem =
+                (lucro / valorKit) * 100;
+
+        }
+
+
+        // ===============================
+        // FORMULÁRIO
+        // ===============================
+
+        document.getElementById("lucroKit").value =
+            lucro.toFixed(2);
+
+        document.getElementById("margemLucro").value =
+            margem.toFixed(2) + "%";
+
+
+        // ===============================
+        // MODAL
+        // ===============================
+
+        document.getElementById("modalCustoKit").textContent =
+            formatarPreco(custoTotal);
+
+        document.getElementById("modalValorKit").textContent =
+            formatarPreco(valorKit);
+
+        document.getElementById("modalLucroKit").textContent =
+            formatarPreco(lucro);
+
+        document.getElementById("modalMargemKit").textContent =
+            margem.toFixed(2) + "%";
+
+
+        // ===============================
+        // COR DO LUCRO
+        // ===============================
+
+        const elementoLucro =
+            document.getElementById("modalLucroKit");
+
+        elementoLucro.classList.remove(
+            "lucro-positivo",
+            "lucro-negativo"
+        );
+
+        if (lucro >= 0) {
+
+            elementoLucro.classList.add(
+                "lucro-positivo"
+            );
+
+        } else {
+
+            elementoLucro.classList.add(
+                "lucro-negativo"
+            );
+
+        }
 
     } catch (erro) {
 
@@ -308,6 +492,28 @@ async function carregarItensKit(kitId) {
         alert("Erro ao carregar produtos do kit.");
 
     }
+}
+function calcularLucroKit() {
+
+    const custo =
+        Number(document.getElementById("custoKit").value) || 0;
+
+    const valor =
+        Number(document.getElementById("valor").value) || 0;
+
+    const lucro = valor - custo;
+
+    let margem = 0;
+
+    if (valor > 0) {
+        margem = (lucro / valor) * 100;
+    }
+
+    document.getElementById("lucroKit").value =
+        lucro.toFixed(2);
+
+    document.getElementById("margemLucro").value =
+        margem.toFixed(2) + "%";
 }
 async function excluirItemKit(kitId, itemId) {
 
@@ -347,6 +553,7 @@ async function excluirItemKit(kitId, itemId) {
 async function carregarProdutos() {
 
     const select = document.getElementById("produto");
+    const selectEdicao = document.getElementById("produtoEdicao");
 
     try {
 
@@ -358,29 +565,51 @@ async function carregarProdutos() {
 
         const produtos = await resposta.json();
 
-        select.innerHTML = `
-            <option value="">
-                Selecione um produto
-            </option>
-        `;
+        // SELECT DO "VER ITENS"
+        if (select) {
 
-        produtos.forEach(produto => {
+            select.innerHTML = `
+                <option value="">
+                    Selecione um produto
+                </option>
+            `;
 
-            const option = document.createElement("option");
+            produtos.forEach(produto => {
 
-            option.value = produto.id;
-            option.textContent = produto.nome;
+                const option = document.createElement("option");
 
-            select.appendChild(option);
+                option.value = produto.id;
+                option.textContent = produto.nome;
 
-        });
+                select.appendChild(option);
+            });
+        }
+
+        // SELECT DO "EDITAR KIT"
+        if (selectEdicao) {
+
+            selectEdicao.innerHTML = `
+                <option value="">
+                    Selecione um produto
+                </option>
+            `;
+
+            produtos.forEach(produto => {
+
+                const option = document.createElement("option");
+
+                option.value = produto.id;
+                option.textContent = produto.nome;
+
+                selectEdicao.appendChild(option);
+            });
+        }
 
     } catch (erro) {
 
         console.error("Erro:", erro);
 
         alert("Não foi possível carregar os produtos.");
-
     }
 }
 // ADICIONAR PRODUTO AO KIT
@@ -465,6 +694,94 @@ btnAdicionarProduto.addEventListener("click", async function() {
     }
 
 });
+// ADICIONAR PRODUTO DURANTE EDIÇÃO
+
+const btnAdicionarProdutoEdicao =
+    document.getElementById("btnAdicionarProdutoEdicao");
+
+if (btnAdicionarProdutoEdicao) {
+
+    btnAdicionarProdutoEdicao.addEventListener(
+        "click",
+        async function() {
+
+            const produtoId =
+                document.getElementById("produtoEdicao").value;
+
+            const quantidade =
+                Number(
+                    document.getElementById(
+                        "quantidadeProdutoEdicao"
+                    ).value
+                );
+
+            if (!kitSelecionadoId) {
+                alert("Nenhum kit selecionado.");
+                return;
+            }
+
+            if (!produtoId) {
+                alert("Selecione um produto.");
+                return;
+            }
+
+            if (!quantidade || quantidade <= 0) {
+                alert("Informe uma quantidade válida.");
+                return;
+            }
+
+            const item = {
+                produtoId: Number(produtoId),
+                quantidade: quantidade
+            };
+
+            try {
+
+                const resposta = await fetch(
+                    `/kits/${kitSelecionadoId}/itens`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(item)
+                    }
+                );
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        "Erro ao adicionar produto"
+                    );
+                }
+
+                await resposta.json();
+
+                alert("Produto adicionado ao kit!");
+
+                document.getElementById(
+                    "quantidadeProdutoEdicao"
+                ).value = "";
+
+                document.getElementById(
+                    "produtoEdicao"
+                ).value = "";
+
+                // Atualiza produtos e cálculos
+                await carregarItensKit(
+                    kitSelecionadoId
+                );
+
+            } catch (erro) {
+
+                console.error("Erro:", erro);
+
+                alert(
+                    "Não foi possível adicionar o produto ao kit."
+                );
+            }
+        }
+    );
+}
 // CARREGAR KITS
 
 carregarKits();
