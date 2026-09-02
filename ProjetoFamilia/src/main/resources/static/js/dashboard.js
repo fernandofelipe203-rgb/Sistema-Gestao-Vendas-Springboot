@@ -26,3 +26,10 @@ document.getElementById("totalKits").textContent = kits.length;
 
 carregarResumo();
 
+document.getElementById("btnVendas")
+    .addEventListener("click", function () {
+
+        window.location.href = "vendas.html";
+
+    });
+

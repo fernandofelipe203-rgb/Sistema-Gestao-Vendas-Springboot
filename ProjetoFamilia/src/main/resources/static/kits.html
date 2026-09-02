@@ -63,6 +63,7 @@
         background-color: #246fc5;
     }
 
+
     /* FORMULÁRIO */
 
     #formularioKit {
@@ -272,7 +273,62 @@
 
   </div>
 
+</div>
 
+
+<!-- ÁREA DOS ITENS DO KIT -->
+
+<div id="areaItensKit" style="display: none;">
+
+  <h2 id="tituloItensKit">
+    Produtos do Kit
+  </h2>
+
+  <div>
+
+    <select id="produto">
+      <option value="">
+        Selecione um produto
+      </option>
+    </select>
+
+    <input
+            type="number"
+            id="quantidadeProduto"
+            placeholder="Quantidade"
+            min="1">
+
+    <button id="btnAdicionarProduto">
+      Adicionar
+    </button>
+
+  </div>
+
+  <table>
+
+    <thead>
+    <tr>
+      <th>Produto</th>
+      <th>Quantidade</th>
+      <th>Ação</th>
+    </tr>
+    </thead>
+
+    <tbody id="tabelaItensKit">
+    </tbody>
+
+  </table>
+
+  <button id="btnFecharItens">
+    Fechar
+  </button>
+
+</div>
+
+
+<!-- LISTA -->
+
+<div class="card">
   <!-- LISTA -->
 
   <div class="card">

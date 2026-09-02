@@ -2,7 +2,7 @@
 const tabela = document.getElementById("tabelaKits");
 
 let kits = [];
-
+let kitSelecionadoId = null;
 
 // LISTAR KITS
 
@@ -34,7 +34,9 @@ async function carregarKits() {
                     <button onclick="editarKit(${kit.id})">
                         Editar
                     </button>
-
+                    <button onclick="verItensKit(${kit.id})">
+                        Ver itens
+                    </button>
                     <button onclick="excluirKit(${kit.id})">
                         Excluir
                     </button>
@@ -59,6 +61,16 @@ async function carregarKits() {
 const btnNovoKit = document.getElementById("btnNovoKit");
 const formularioKit = document.getElementById("formularioKit");
 const btnCancelar = document.getElementById("btnCancelar");
+const btnFecharItens = document.getElementById("btnFecharItens");
+const areaItensKit = document.getElementById("areaItensKit");
+
+btnFecharItens.addEventListener("click", function() {
+
+    areaItensKit.style.display = "none";
+
+    kitSelecionadoId = null;
+
+});
 
 
 // ABRIR FORMULÁRIO
@@ -226,8 +238,227 @@ function editarKit(id) {
 
 }
 
+// ITENS DO KIT
+// ================================
 
+async function verItensKit(kitId) {
+
+    kitSelecionadoId = kitId;
+
+    const area = document.getElementById("areaItensKit");
+
+    area.style.display = "block";
+
+    const kit = kits.find(k => k.id === kitId);
+
+    if (kit) {
+        document.getElementById("tituloItensKit").textContent =
+            `Produtos do Kit ${kit.nome}`;
+    }
+
+    await carregarItensKit(kitId);
+}
+async function carregarItensKit(kitId) {
+
+    try {
+
+        const resposta = await fetch(`/kits/${kitId}/itens`);
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao buscar itens do kit");
+        }
+
+        const itens = await resposta.json();
+
+        const tabelaItens =
+            document.getElementById("tabelaItensKit");
+
+        tabelaItens.innerHTML = "";
+
+        itens.forEach(item => {
+
+            const linha = document.createElement("tr");
+
+            linha.innerHTML = `
+                <td>${item.produto.nome}</td>
+                <td>${item.quantidade}</td>
+                <td>
+                    <button onclick="excluirItemKit(${kitId}, ${item.id})">
+                        Excluir
+                    </button>
+                </td>
+            `;
+
+            tabelaItens.appendChild(linha);
+
+        });
+
+    } catch (erro) {
+
+        console.error("Erro:", erro);
+
+        alert("Erro ao carregar produtos do kit.");
+
+    }
+}
+async function excluirItemKit(kitId, itemId) {
+
+    const confirmar = confirm(
+        "Deseja remover este produto do kit?"
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+
+        const resposta = await fetch(
+            `/kits/${kitId}/itens/${itemId}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao excluir item");
+        }
+
+        alert("Produto removido do kit!");
+
+        carregarItensKit(kitId);
+
+    } catch (erro) {
+
+        console.error("Erro:", erro);
+
+        alert("Não foi possível remover o produto.");
+
+    }
+}
+async function carregarProdutos() {
+
+    const select = document.getElementById("produto");
+
+    try {
+
+        const resposta = await fetch("/produtos");
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao buscar produtos");
+        }
+
+        const produtos = await resposta.json();
+
+        select.innerHTML = `
+            <option value="">
+                Selecione um produto
+            </option>
+        `;
+
+        produtos.forEach(produto => {
+
+            const option = document.createElement("option");
+
+            option.value = produto.id;
+            option.textContent = produto.nome;
+
+            select.appendChild(option);
+
+        });
+
+    } catch (erro) {
+
+        console.error("Erro:", erro);
+
+        alert("Não foi possível carregar os produtos.");
+
+    }
+}
+// ADICIONAR PRODUTO AO KIT
+// ================================
+
+const btnAdicionarProduto =
+    document.getElementById("btnAdicionarProduto");
+
+btnAdicionarProduto.addEventListener("click", async function() {
+
+    const produtoId =
+        document.getElementById("produto").value;
+
+    const quantidade =
+        Number(document.getElementById("quantidadeProduto").value);
+
+    if (!kitSelecionadoId) {
+        alert("Primeiro selecione um kit.");
+        return;
+    }
+
+    if (!produtoId) {
+        alert("Selecione um produto.");
+        return;
+    }
+
+    if (!quantidade || quantidade <= 0) {
+        alert("Informe uma quantidade válida.");
+        return;
+    }
+
+    const item = {
+        produtoId: Number(produtoId),
+        quantidade: quantidade
+    };
+
+    console.log("Enviando:", item);
+    console.log("Kit:", kitSelecionadoId);
+
+    try {
+
+        const resposta = await fetch(
+            `/kits/${kitSelecionadoId}/itens`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(item)
+            }
+        );
+
+        if (!resposta.ok) {
+
+            const erro = await resposta.text();
+
+            console.error("Erro do servidor:", erro);
+
+            throw new Error(
+                `Erro ao adicionar produto. Status: ${resposta.status}`
+            );
+        }
+
+        const itemSalvo = await resposta.json();
+
+        console.log("Item salvo:", itemSalvo);
+
+        alert("Produto adicionado ao kit!");
+
+        document.getElementById("quantidadeProduto").value = "";
+
+        await carregarItensKit(kitSelecionadoId);
+
+    } catch (erro) {
+
+        console.error("Erro:", erro);
+
+        alert("Não foi possível adicionar o produto ao kit.");
+
+    }
+
+});
 // CARREGAR KITS
 
 carregarKits();
+carregarProdutos();
 

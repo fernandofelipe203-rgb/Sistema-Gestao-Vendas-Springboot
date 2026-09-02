@@ -1,17 +1,22 @@
 package com.example.ProjetoFamilia.model;
 
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "kits")
 public class Kit {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String nome;
     private double valor;
 
+    @OneToMany(mappedBy = "kit", cascade = CascadeType.ALL)
+    private List<ItensKit> itens = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -37,5 +42,11 @@ public class Kit {
         this.valor = valor;
     }
 
+    public List<ItensKit> getItens() {
+        return itens;
+    }
 
+    public void setItens(List<ItensKit> itens) {
+        this.itens = itens;
+    }
 }
